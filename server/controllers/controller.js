@@ -5,7 +5,7 @@ const userController = {};
 userController.getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
-    console.log(users);
+    // console.log(users);
     res.locals.users = users;
     next();
   } catch (err) {

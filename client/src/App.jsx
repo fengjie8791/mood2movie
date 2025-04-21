@@ -6,9 +6,10 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api');
+        const res = await fetch('/api/tmdb');
         const json = await res.json();
         setData(json);
+        console.log(data);
       } catch (err) {
         console.error('Fetch error:', err);
       }
@@ -16,18 +17,17 @@ function App() {
     fetchData();
   }, []);
 
+  if (!data) return <p>Loading...</p>;
+
   return (
     <>
-      <h1>用户列表</h1>
-      {data ? (
-        data.map((user, i) => (
-          <div key={i}>
-            <strong>{user.username}</strong> - {user.password}
-          </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+      <h1>Movie</h1>
+
+      <p>Adult: {data.adult.toString()}</p>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${data.backdrop_path}`}
+        alt='Movie backdrop'
+      />
     </>
   );
 }
