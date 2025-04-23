@@ -16,7 +16,7 @@ router.get(
   movieController.getMovieList,
   (req, res) => {
     // console.log(123);
-    res.status(200).json(res.locals.nowPlaying);
+    res.status(200).json(res.locals.movieList);
   }
 );
 

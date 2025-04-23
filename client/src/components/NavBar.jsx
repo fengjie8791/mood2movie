@@ -13,7 +13,10 @@ const NavBar = () => {
             </Link>
           </div>
           <div className='nav-app-name'>
-            <h1 className='nav-title'>movieBYmood</h1>
+            <h1 className='nav-title'>
+              <span className='color-blue'>movie</span>BY
+              <span className='color-purple'>mood</span>
+            </h1>
           </div>
           <div className='nav-btn'>
             <li>

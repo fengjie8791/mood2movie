@@ -26,27 +26,32 @@ movieController.getMovie = (req, res, next) => {
   fetchMovieById(111);
 };
 movieController.getMovieList = async (req, res, next) => {
-  const type = req.query.type || 'now_playing';
-  console.log(type);
-  try {
-    console.log(type);
+  const { type, genreId } = req.query;
+  console.log('type', type);
+  console.log('genreId', genreId);
 
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${type}`,
-      {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-          page: 1,
-          region: 'US',
-        },
-      }
-    );
-    // console.log(response.data.results);
-    res.locals.nowPlaying = response.data.results;
+  const baseUrl = genreId
+    ? 'https://api.themoviedb.org/3/discover/movie'
+    : `https://api.themoviedb.org/3/movie/${type || 'now_playing'}`;
+
+  const params = {
+    api_key: TMDB_API_KEY,
+    language: 'en-US',
+    page: 1,
+    region: 'US',
+  };
+
+  if (genreId) {
+    params.with_genres = genreId;
+  }
+
+  try {
+    const response = await axios.get(baseUrl, { params });
+    res.locals.movieList = response.data.results;
     next();
   } catch (err) {
-    console.error('Error fetching now playing movies:', err);
+    console.error('Error fetching movie list:', err);
+    res.status(500).json({ error: 'Failed to fetch movie list' });
   }
 };
 

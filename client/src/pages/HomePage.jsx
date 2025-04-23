@@ -10,17 +10,25 @@ const HomePage = () => {
   const handleClickSideBarBtn = (value) => {
     setSideBarBtn(value);
   };
-  const fetchData = async (type = 'now_playing') => {
+  const fetchData = async ({ type = 'now_playing', genreId = null } = {}) => {
     try {
-      const res = await api.get(`/tmdb?type=${type}`);
+      const res = await api.get('/tmdb', {
+        params: {
+          type,
+          genreId,
+        },
+      });
       setMovieData(res.data);
-      console.log('Fetched data:', res.data);
     } catch (err) {
       console.error('Fetch error:', err);
     }
   };
   useEffect(() => {
-    fetchData(sideBarBtn);
+    if (typeof sideBarBtn === 'number') {
+      fetchData({ genreId: sideBarBtn });
+    } else {
+      fetchData({ type: sideBarBtn });
+    }
   }, [sideBarBtn]);
 
   if (!movieData) return <p>Loading...</p>;
@@ -29,7 +37,7 @@ const HomePage = () => {
       <NavBar />
       <div className='container'>
         <Sidebar handleClickSideBarBtn={handleClickSideBarBtn} />
-        <Main MovieListData={movieData} />
+        <Main movieListData={movieData} movieContentTitle={sideBarBtn} />
       </div>
     </div>
   );

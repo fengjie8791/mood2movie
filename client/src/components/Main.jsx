@@ -6,7 +6,10 @@ const Main = (props) => {
   return (
     <main>
       <Mood />
-      <MovieContent movieListData={props} />
+      <MovieContent
+        movieListData={props.movieListData}
+        movieContentTitle={props.movieContentTitle}
+      />
     </main>
   );
 };
