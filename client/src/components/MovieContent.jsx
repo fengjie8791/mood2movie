@@ -7,7 +7,6 @@ const MovieContent = ({ movieListData, movieContentTitle }) => {
     return <div>Loading movies...</div>;
   }
   let formatmMvieContentTitle;
-  console.log(movieContentTitle);
   if (typeof movieContentTitle === 'number') {
     formatmMvieContentTitle = movieGenresById[movieContentTitle];
   } else {

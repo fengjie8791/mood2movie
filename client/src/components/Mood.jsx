@@ -1,7 +1,7 @@
 import React from 'react';
 import MoodInput from './MoodInput';
 
-const Mood = () => {
+const Mood = ({ setMoodInputValue, moodInputValue }) => {
   return (
     <section className='mood'>
       <h1 className=''>
@@ -12,7 +12,10 @@ const Mood = () => {
         Not sure what to watch? Just tell me how you feel and I'll find
         something perfect.
       </h2>
-      <MoodInput />
+      <MoodInput
+        setMoodInputValue={setMoodInputValue}
+        moodInputValue={moodInputValue}
+      />
     </section>
   );
 };

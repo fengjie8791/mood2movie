@@ -4,12 +4,13 @@ import Sidebar from '../components/Sidebar';
 import Main from '../components/Main';
 import api from '../api';
 
-const HomePage = () => {
+const HomePage = ({ setMoodInputValue, moodInputValue }) => {
   const [sideBarBtn, setSideBarBtn] = useState('now_playing');
   const [movieData, setMovieData] = useState(null);
   const handleClickSideBarBtn = (value) => {
     setSideBarBtn(value);
   };
+
   const fetchData = async ({ type = 'now_playing', genreId = null } = {}) => {
     try {
       const res = await api.get('/tmdb', {
@@ -33,11 +34,21 @@ const HomePage = () => {
 
   if (!movieData) return <p>Loading...</p>;
   return (
-    <div>
+    <div
+      className='home-page-background'
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,1)), url(https://image.tmdb.org/t/p/original/fTrQsdMS2MUw00RnzH0r3JWHhts.jpg)`,
+      }}
+    >
       <NavBar />
       <div className='container'>
         <Sidebar handleClickSideBarBtn={handleClickSideBarBtn} />
-        <Main movieListData={movieData} movieContentTitle={sideBarBtn} />
+        <Main
+          movieListData={movieData}
+          movieContentTitle={sideBarBtn}
+          setMoodInputValue={setMoodInputValue}
+          moodInputValue={moodInputValue}
+        />
       </div>
     </div>
   );

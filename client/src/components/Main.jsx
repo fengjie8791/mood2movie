@@ -5,7 +5,10 @@ import MovieContent from './MovieContent';
 const Main = (props) => {
   return (
     <main>
-      <Mood />
+      <Mood
+        setMoodInputValue={props.setMoodInputValue}
+        moodInputValue={props.moodInputValue}
+      />
       <MovieContent
         movieListData={props.movieListData}
         movieContentTitle={props.movieContentTitle}

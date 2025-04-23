@@ -5,6 +5,7 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 movieController.getMovie = (req, res, next) => {
+  // console.log('getMovie', req.params.id);
   async function fetchMovieById(movieId) {
     const url = `${BASE_URL}/movie/${movieId}`;
 
@@ -23,12 +24,12 @@ movieController.getMovie = (req, res, next) => {
     }
   }
 
-  fetchMovieById(111);
+  fetchMovieById(req.params.id);
 };
 movieController.getMovieList = async (req, res, next) => {
   const { type, genreId } = req.query;
-  console.log('type', type);
-  console.log('genreId', genreId);
+  // console.log('type', type);
+  // console.log('genreId', genreId);
 
   const baseUrl = genreId
     ? 'https://api.themoviedb.org/3/discover/movie'
@@ -52,6 +53,35 @@ movieController.getMovieList = async (req, res, next) => {
   } catch (err) {
     console.error('Error fetching movie list:', err);
     res.status(500).json({ error: 'Failed to fetch movie list' });
+  }
+};
+movieController.getMovieByGenre = async (req, res, next) => {
+  const { genreId } = req.query;
+
+  if (!genreId) {
+    return res.status(400).json({ error: 'Missing genreId parameter.' });
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/discover/movie`, {
+      params: {
+        api_key: TMDB_API_KEY,
+        language: 'en-US',
+        sort_by: 'popularity.desc',
+        with_genres: genreId,
+        page: 1,
+      },
+    });
+
+    const movies = response.data.results;
+    const shuffled = movies.sort(() => 0.5 - Math.random());
+    const selectedMovies = shuffled.slice(0, 5);
+
+    res.locals.genreMovies = selectedMovies;
+    return next();
+  } catch (err) {
+    console.error('Error fetching movies by genre:', err);
+    return res.status(500).json({ error: 'Failed to fetch movies by genre.' });
   }
 };
 
