@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import './App.css';
 import MoodInput from './components/MoodInput';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
 
 function App() {
   const [data, setData] = useState(null);
@@ -23,20 +24,9 @@ function App() {
 
   return (
     <>
-      <h1>Movie</h1>
-      {data.map((movie, index) => {
-        return (
-          <div key={index}>
-            <p>{movie.original_title}</p>
-            {/* <img
-              src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-            /> */}
-            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-          </div>
-        );
-      })}
-
-      <MoodInput />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+      </Routes>
     </>
   );
 }
