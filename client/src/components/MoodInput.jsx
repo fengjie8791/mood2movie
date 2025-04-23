@@ -18,8 +18,7 @@ const MoodInput = () => {
     }
   };
   return (
-    <div>
-      <label htmlFor=''>What's your mood now?</label>
+    <div className='mood-input-box'>
       <input
         id='mood'
         value={inputValue}
@@ -28,7 +27,7 @@ const MoodInput = () => {
         }}
         type='text'
       />
-      <button onClick={() => handleClickMood()}>Submit</button>
+      <button onClick={() => console.log('clicked')}>Submit</button>
     </div>
   );
 };

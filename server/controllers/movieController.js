@@ -25,10 +25,14 @@ movieController.getMovie = (req, res, next) => {
 
   fetchMovieById(111);
 };
-movieController.getNowPlaying = async (req, res, next) => {
+movieController.getMovieList = async (req, res, next) => {
+  const type = req.query.type || 'now_playing';
+  console.log(type);
   try {
+    console.log(type);
+
     const response = await axios.get(
-      'https://api.themoviedb.org/3/movie/now_playing',
+      `https://api.themoviedb.org/3/movie/${type}`,
       {
         params: {
           api_key: TMDB_API_KEY,
