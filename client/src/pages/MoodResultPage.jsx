@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import api from '../api';
 import { GENRE_NAME_TO_ID } from '../constants/genres';
+import NavBar from '../components/NavBar';
+import MoodMovieCard from '../components/MoodMovieCard';
 
 const MoodResultPage = ({ moodInputValue }) => {
   const [movieList, setMovieList] = useState([]);
-  const [recommendedGenre, setRecommendedGenre] = useState('');
+  const [recommendedGenre, setRecommendedGenre] = useState('Drama');
+  const [moodMovieCard, setMoodMovieCard] = useState([]);
   const fetchChatgpt = async () => {
     if (moodInputValue === '') {
       console.log('input empty');
@@ -34,7 +37,7 @@ const MoodResultPage = ({ moodInputValue }) => {
         },
       });
       setMovieList(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.error(`Failed to fetch movies for genre ${genreName}:`, err);
     }
@@ -45,19 +48,30 @@ const MoodResultPage = ({ moodInputValue }) => {
     fetchMoviesByGenre(recommendedGenre);
   };
 
-  useEffect(() => {
-    fetchChatgpt();
-  }, []);
+  // useEffect(() => {
+  //   fetchChatgpt();
+  // }, []);
   useEffect(() => {
     if (recommendedGenre) {
       fetchMoviesByGenre(recommendedGenre);
     }
   }, [recommendedGenre]);
+  useEffect(() => {
+    if (movieList.length > 0) {
+      const newMovieList = movieList.map((movie) => {
+        return <MoodMovieCard title={movie.title} />;
+      });
+      setMoodMovieCard(newMovieList);
+    }
+  }, [movieList]);
 
   return (
     <div>
-      {moodInputValue}
-      <button onClick={() => handleRepickMovie()}>repick movie</button>
+      <NavBar />
+      <div className='mood-result-container'>
+        <div className='mood-result-card-box'>{moodMovieCard}</div>
+        <button onClick={() => handleRepickMovie()}>repick movie</button>
+      </div>
     </div>
   );
 };

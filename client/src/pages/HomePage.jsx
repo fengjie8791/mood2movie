@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar';
 import Sidebar from '../components/Sidebar';
 import Main from '../components/Main';
 import api from '../api';
+import backgroundImage from '../assets/images/background-image.png';
 
 const HomePage = ({ setMoodInputValue, moodInputValue }) => {
   const [sideBarBtn, setSideBarBtn] = useState('now_playing');
@@ -37,7 +38,7 @@ const HomePage = ({ setMoodInputValue, moodInputValue }) => {
     <div
       className='home-page-background'
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,1)), url(https://image.tmdb.org/t/p/original/fTrQsdMS2MUw00RnzH0r3JWHhts.jpg)`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,1)), url(${backgroundImage})`,
       }}
     >
       <NavBar />
