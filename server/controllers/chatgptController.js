@@ -45,9 +45,13 @@ chatgptController.generateMovieGenres = async (req, res, next) => {
       messages: [
         {
           role: 'system',
-          content: `You are a helpful assistant that suggests movie genres based on the user's mood. You must respond ONLY with a String of genres Only have one genre (e.g., "Comedy"). Do not include any extra explanation or text. The genres must be selected only from this list: ${movieGenres.join(
-            ', '
-          )}.`,
+          content: `You are a helpful assistant that suggests movie genres based on the user's mood. 
+      You must respond ONLY with a JSON array of two strings. 
+      The first string is one genre selected from this list: ${movieGenres.join(
+        ', '
+      )}. 
+      The second string is a brief reason (1 sentence max) explaining why this genre matches the user's mood.
+      Do not include any extra explanation or text outside the array.`,
         },
         {
           role: 'user',

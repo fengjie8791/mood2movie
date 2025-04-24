@@ -1,7 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const MoodMovieCard = ({ title, poster, isFlipped, onFlip, isHidden }) => {
+const MoodMovieCard = ({
+  title,
+  poster,
+  isFlipped,
+  onFlip,
+  isHidden,
+  movieId,
+}) => {
   return (
     <div
       className={`mood-flip-container ${isFlipped ? 'flipped' : ''} ${
@@ -11,9 +19,17 @@ const MoodMovieCard = ({ title, poster, isFlipped, onFlip, isHidden }) => {
     >
       <div className='mood-card-flipper'>
         <div className='mood-card mood-card-front'>
-          <img src={poster} alt={title} />
-          {/* <h3>{title}</h3> */}
+          <div className='mood-card-front-content-box'>
+            <img src={poster} alt={title} />
+            <Link to={`/movie/${movieId}`}>
+              <div className='mood-card-front-content'>
+                <p className='font-card-front-title'>{title}</p>
+                <p className='font-card-front-show-more'>Show More</p>
+              </div>
+            </Link>
+          </div>
         </div>
+
         <div className='mood-card mood-card-back'></div>
       </div>
     </div>

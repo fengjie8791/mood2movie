@@ -43,6 +43,17 @@ h2 {
   color: var(--white-color);
   font-weight: 700;
 }
+
+.font-card-front-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.font-card-front-show-more {
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
 .font-nav-content {
   font-size: 16px;
   color: var(--white-color);
@@ -97,7 +108,7 @@ body {
   transition: ease-in-out 0.2s;
 }
 .nav-logo img:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .nav-btn {
   display: flex;
@@ -307,7 +318,7 @@ p {
 }
 
 .movie-detail-poster img:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .back-button {
@@ -379,6 +390,11 @@ p {
   opacity: 1;
   top: 0px;
   transition: all 0.5s;
+  color: var(--white-color);
+}
+.mood-flip-container:hover {
+  transform: scale(1.1);
+  z-index: 1;
 }
 .hide {
   top: -200px;
@@ -403,7 +419,7 @@ p {
   width: 100%;
   height: 100%;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 1);
   backface-visibility: hidden;
   overflow: hidden;
   display: flex;
@@ -417,9 +433,25 @@ p {
   min-height: 100%;
   /* border-radius: 12px 12px 0 0; */
 }
-
+.mood-card-front-content-box {
+  position: absolute;
+}
+.mood-card-front-content {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  top: 320px;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+  padding: 15px;
+  opacity: 0;
+  transition: all 0.2s;
+  color: white;
+}
+.mood-card-front-content:hover {
+  opacity: 1;
+}
 .mood-card-back {
-  color: #fff;
   transform: rotateY(180deg);
   padding: 1rem;
   text-align: center;

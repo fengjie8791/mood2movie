@@ -35,8 +35,14 @@ const MovieDetailPage = () => {
           </button>
           <div className='movie-detail-content'>
             <h1 className='title'>{movie.title}</h1>
-            <p className='tagline color-purple'>{movie.tagline}</p>
+            <p className='tagline'>{movie.tagline}</p>
             <p className='overview'>{movie.overview}</p>
+            <p>
+              <strong className='color-blue'>Genres:</strong>
+              {movie.genres.map((genre) => {
+                return <span> {genre.name} </span>;
+              })}
+            </p>
             <p>
               <strong className='color-blue'>Release Date:</strong>{' '}
               {movie.release_date}
@@ -49,10 +55,7 @@ const MovieDetailPage = () => {
               <strong className='color-blue'>Rating:</strong>{' '}
               {movie.vote_average} ({movie.vote_count} votes)
             </p>
-            <p>
-              <strong className='color-blue'>Genres:</strong>{' '}
-              {movie.genres.map((genre) => genre.name).join(', ')}
-            </p>
+
             <p>
               <strong className='color-blue'>Original Language:</strong>{' '}
               {movie.original_language}

@@ -7,7 +7,8 @@ import MoodMovieCard from '../components/MoodMovieCard';
 
 const MoodResultPage = ({ moodInputValue }) => {
   const [movieList, setMovieList] = useState([]);
-  const [recommendedGenre, setRecommendedGenre] = useState('Family');
+  const [recommendedGenre, setRecommendedGenre] = useState('');
+  const [recommendedReason, setRecommendedReason] = useState('');
   const [moodMovieCard, setMoodMovieCard] = useState([]);
   const [flipStates, setFlipStates] = useState(Array(5).fill(true));
   const [isHidden, setIshidden] = useState(false);
@@ -27,9 +28,13 @@ const MoodResultPage = ({ moodInputValue }) => {
     }
     try {
       const res = await api.post('/mood', { mood: moodInputValue });
-      console.log('chatgpt res:', res.data.message);
-      const genre = res.data.message;
+      // console.log('chatgpt res:', res.data.message);
+      const responseString = res.data.message;
+      const [genre, reason] = JSON.parse(responseString);
+      console.log(genre);
+      console.log(reason);
       setRecommendedGenre(genre);
+      setRecommendedReason(reason);
     } catch (err) {
       console.error('err:', err);
     }
@@ -67,9 +72,10 @@ const MoodResultPage = ({ moodInputValue }) => {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   fetchChatgpt();
-  // }, []);
+  useEffect(() => {
+    fetchChatgpt();
+  }, []);
+
   useEffect(() => {
     if (recommendedGenre) {
       fetchMoviesByGenre(recommendedGenre);
@@ -81,6 +87,7 @@ const MoodResultPage = ({ moodInputValue }) => {
       const newMovieList = movieList.map((movie, index) => {
         return (
           <MoodMovieCard
+            movieId={movie.id}
             isHidden={isHidden}
             isFlipped={flipStates[index]}
             onFlip={() => handleCardFlip(index)}
@@ -102,9 +109,10 @@ const MoodResultPage = ({ moodInputValue }) => {
           Based on how you're feeling, I've picked five movies in the{' '}
           <span className='color-blue'>{recommendedGenre}</span> genre for you.
         </p>
+        <p>Recommended Reason: {recommendedReason}</p>
         <div className='mood-result-card-box'>{moodMovieCard}</div>
         <button className='back-button' onClick={() => handleRepickMovie()}>
-          repick movie
+          Get New Picks
         </button>
       </div>
     </div>
