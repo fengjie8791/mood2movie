@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MovieDetailPage from './pages/MovieDetailPage';
 import MoodResultPage from './pages/MoodResultPage';
+import ComingSoon from './pages/ComingSoon';
 
 function App() {
   const [data, setData] = useState(null);
@@ -40,6 +41,7 @@ function App() {
           path='/mood-result'
           element={<MoodResultPage moodInputValue={moodInputValue} />}
         />
+        <Route path='/coming-soon' element={<ComingSoon />} />
       </Routes>
     </>
   );

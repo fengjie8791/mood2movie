@@ -5,27 +5,50 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 movieController.getMovie = (req, res, next) => {
-  // console.log('getMovie', req.params.id);
   async function fetchMovieById(movieId) {
-    const url = `${BASE_URL}/movie/${movieId}`;
+    const movieUrl = `${BASE_URL}/movie/${movieId}`;
+    const creditsUrl = `${BASE_URL}/movie/${movieId}/credits`;
 
     try {
-      const response = await axios.get(url, {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-        },
-      });
+      const [movieRes, creditsRes] = await Promise.all([
+        axios.get(movieUrl, {
+          params: {
+            api_key: TMDB_API_KEY,
+            language: 'en-US',
+          },
+        }),
+        axios.get(creditsUrl, {
+          params: {
+            api_key: TMDB_API_KEY,
+            language: 'en-US',
+          },
+        }),
+      ]);
 
-      res.locals.movie = response.data;
+      const movie = movieRes.data;
+      const credits = creditsRes.data;
+
+      const cast = credits.cast.slice(0, 6).map((actor) => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: actor.profile_path,
+      }));
+
+      res.locals.movie = {
+        ...movie,
+        cast,
+      };
+
       return next();
     } catch (error) {
-      console.error('Axios request failed:', error.message);
+      console.error('Error fetching movie or credits:', error.message);
+      return res.status(500).json({ error: 'Failed to fetch movie details' });
     }
   }
 
   fetchMovieById(req.params.id);
 };
+
 movieController.getMovieList = async (req, res, next) => {
   const { type, genreId } = req.query;
   // console.log('type', type);

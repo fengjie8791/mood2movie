@@ -30,9 +30,17 @@ const MovieDetailPage = () => {
         }}
       >
         <div className='movie-detail-wrapper'>
-          <button className='back-button' onClick={() => navigate('/')}>
-            ← Back to Home
-          </button>
+          <div className='movie-detail-btn-box'>
+            <button className='back-button' onClick={() => navigate('/')}>
+              Back to Home
+            </button>
+            <button
+              className='back-button'
+              onClick={() => navigate('/coming-soon')}
+            >
+              Add to Favortie
+            </button>
+          </div>
           <div className='movie-detail-content'>
             <h1 className='title'>{movie.title}</h1>
             <p className='tagline'>{movie.tagline}</p>
@@ -40,7 +48,7 @@ const MovieDetailPage = () => {
             <p>
               <strong className='color-blue'>Genres:</strong>
               {movie.genres.map((genre) => {
-                return <span> {genre.name} </span>;
+                return <span key={genre.id}> {genre.name} </span>;
               })}
             </p>
             <p>
@@ -67,6 +75,22 @@ const MovieDetailPage = () => {
             <p>
               <strong className='color-blue'>IMDB ID:</strong> {movie.imdb_id}
             </p>
+            <div className='casts-container'>
+              {movie.cast.map((cast, index) => (
+                <div key={index} className='cast-card'>
+                  <img
+                    src={
+                      cast.profile_path
+                        ? `https://image.tmdb.org/t/p/w185${cast.profile_path}`
+                        : `/src/assets/images/cast-placeholder.jpg`
+                    }
+                    alt={cast.name}
+                    className='cast-image'
+                  />
+                  <p className='cast-name'>{cast.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className='movie-detail-poster'>
             <a href={movie.homepage} rel='noopener noreferrer'>

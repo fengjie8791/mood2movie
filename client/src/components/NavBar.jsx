@@ -20,12 +20,12 @@ const NavBar = () => {
           </div>
           <div className='nav-btn'>
             <li>
-              <Link to='/'>
+              <Link to='/coming-soon'>
                 <span className='font-nav-content'>LOG IN</span>
               </Link>
             </li>
             <li>
-              <Link to='/'>
+              <Link to='/coming-soon'>
                 <span className='font-nav-content'>SIGH UP</span>
               </Link>
             </li>
