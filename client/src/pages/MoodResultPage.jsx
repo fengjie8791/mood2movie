@@ -7,8 +7,19 @@ import MoodMovieCard from '../components/MoodMovieCard';
 
 const MoodResultPage = ({ moodInputValue }) => {
   const [movieList, setMovieList] = useState([]);
-  const [recommendedGenre, setRecommendedGenre] = useState('Drama');
+  const [recommendedGenre, setRecommendedGenre] = useState('Family');
   const [moodMovieCard, setMoodMovieCard] = useState([]);
+  const [flipStates, setFlipStates] = useState(Array(5).fill(true));
+  const [isHidden, setIshidden] = useState(false);
+
+  const handleCardFlip = (index) => {
+    setFlipStates((prev) => {
+      const newFlips = [...prev];
+      newFlips[index] = !newFlips[index];
+      return newFlips;
+    });
+  };
+
   const fetchChatgpt = async () => {
     if (moodInputValue === '') {
       console.log('input empty');
@@ -45,7 +56,15 @@ const MoodResultPage = ({ moodInputValue }) => {
 
   const handleRepickMovie = () => {
     console.log('repick');
-    fetchMoviesByGenre(recommendedGenre);
+    setIshidden(true);
+    setFlipStates(Array(5).fill(true));
+
+    setTimeout(() => {
+      fetchMoviesByGenre(recommendedGenre);
+    }, 500);
+    setTimeout(() => {
+      setIshidden(false);
+    }, 1000);
   };
 
   // useEffect(() => {
@@ -58,19 +77,35 @@ const MoodResultPage = ({ moodInputValue }) => {
   }, [recommendedGenre]);
   useEffect(() => {
     if (movieList.length > 0) {
-      const newMovieList = movieList.map((movie) => {
-        return <MoodMovieCard title={movie.title} />;
+      // console.log(movieList);
+      const newMovieList = movieList.map((movie, index) => {
+        return (
+          <MoodMovieCard
+            isHidden={isHidden}
+            isFlipped={flipStates[index]}
+            onFlip={() => handleCardFlip(index)}
+            key={movie.id}
+            title={movie.title}
+            poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          />
+        );
       });
       setMoodMovieCard(newMovieList);
     }
-  }, [movieList]);
+  }, [movieList, flipStates, isHidden]);
 
   return (
     <div>
       <NavBar />
       <div className='mood-result-container'>
+        <p className='font-nav-title'>
+          Based on how you're feeling, I've picked five movies in the{' '}
+          <span className='color-blue'>{recommendedGenre}</span> genre for you.
+        </p>
         <div className='mood-result-card-box'>{moodMovieCard}</div>
-        <button onClick={() => handleRepickMovie()}>repick movie</button>
+        <button className='back-button' onClick={() => handleRepickMovie()}>
+          repick movie
+        </button>
       </div>
     </div>
   );

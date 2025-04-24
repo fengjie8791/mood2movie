@@ -324,7 +324,6 @@ p {
 }
 
 .back-button:hover {
-  /* background-color: rgba(255, 255, 255, 0.2); */
   border: 1px solid var(--blue-color);
   color: var(--blue-color);
 }
@@ -339,6 +338,92 @@ p {
       rgba(0, 0, 0, 1)
     ),
     url(./assets/images/background-image.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.mood-result-card-box {
+  width: 1500px;
+  display: flex;
+  margin: 30px 0;
+}
+
+.mood-result-card-front {
+  background-color: #519bf7;
+  width: 300px;
+  height: 450px;
+  /* border-radius: 10px; */
+}
+
+.mood-result-card-back {
+  position: relative;
+  top: -450px;
+  background-color: rgba(255, 0, 0, 0.5);
+  width: 300px;
+  height: 450px;
+  /* border-radius: 10px; */
+}
+
+/* flip effect */
+.mood-flip-container {
+  perspective: 1000px;
+  padding: 20px 13px;
+  width: 300px;
+  height: 450px;
+  cursor: pointer;
+  position: relative;
+  opacity: 1;
+  top: 0px;
+  transition: all 0.5s;
+}
+.hide {
+  top: -200px;
+  opacity: 0;
+}
+
+.mood-card-flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  /* margin: 0 10px; */
+}
+
+.flipped .mood-card-flipper {
+  transform: rotateY(180deg);
+}
+
+.mood-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-card-front img {
+  width: 100%;
+  min-height: 100%;
+  /* border-radius: 12px 12px 0 0; */
+}
+
+.mood-card-back {
+  color: #fff;
+  transform: rotateY(180deg);
+  padding: 1rem;
+  text-align: center;
+  background-image: url(./assets/images/mood-card-back.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
